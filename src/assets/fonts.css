@@ -17,3 +17,8 @@
   font-family: 'Sora-bold';
   src: url('./fonts/Sora-Bold.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Cinzel-semibold';
+  src: url('./fonts/Cinzel-SemiBold.ttf') format('truetype');
+}
