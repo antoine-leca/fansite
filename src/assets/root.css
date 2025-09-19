@@ -1,0 +1,82 @@
+@import './fonts.css';
+@import './tailwind.css';
+
+
+:root {
+    --main-reg: 'Sora-reg';
+    --main-med: 'Sora-med';
+    --title-semibold: 'Sora-semibold';
+    --title-bold: 'Sora-bold';
+
+    --bg-main: #1A1623;
+    --bg-sec: #0E0C11;
+    --primary-color: #1A1623;
+    --cta-color: #1A1623;
+    --cta-hover: #FFC85C;
+    --new-films: #3CE6B0;
+    --text-color: #F0E9FF;
+    --grey-color: #A69CB2;
+}
+
+html {
+    scrollbar-color: #1A1623 #1A1623;
+    scrollbar-width: thin;
+}
+
+.main-font-r {
+    font-family: var(--main-reg);
+}
+
+.main-font-m {
+    font-family: var(--main-med);
+}
+
+.title-font-sm {
+    font-family: var(--title-semibold);
+}
+
+.title-font-b {
+    font-family: var(--title-bold);
+}
+
+.bg-main {
+    background-color: var(--bg-main);
+}
+
+.cta-custom {
+    background-color: var(--cta-color);
+    color: white;
+} .cta-custom:hover {
+    background-color: var(--cta-hover);
+}
+.links-nav {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-right: 20px;
+    position: relative;
+    background-size: 200% 100%;
+    background-position: -100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+    padding: 10px 0; 
+    background-image: linear-gradient(
+        to right,
+        #F0E9FF,
+        #1A1623 50%,
+        #1A1623 50%
+        );
+} .links-nav::before {
+        content: '';
+        background: #1A1623;
+        display: block;
+        position: absolute;
+        bottom: 5px;  
+        left: 0;
+        width: 0;
+        height: 2px;
+        transition: all 0.3s ease-in-out;
+} .links-nav:hover {
+        background-position: 0;
+}
