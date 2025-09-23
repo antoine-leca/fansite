@@ -22,9 +22,10 @@
             films tels que "Malcolm X", "Glory", "Philadelphia", "Remember the Titans" ou encore la
             saga "Equalizer".
           </p>
-          <div class="flex justify-center gap-4">
+          <div class="flex justify-center flex-wrap gap-4">
             <a href="/actu" class="btn btn-lg btn-neutral lg:hidden">Actualités</a>
             <a href="/real" class="btn btn-lg btn-neutral lg:hidden">Réalisations</a>
+            <a href="/gallery" class="btn btn-lg btn-neutral lg:hidden">Galerie</a>
           </div>
         </div>
       </div>

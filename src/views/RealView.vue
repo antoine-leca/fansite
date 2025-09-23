@@ -59,9 +59,9 @@
         <li class="divider text-center text-xs font-semibold opacity-60">Films sortis</li>
       </template>
 
-      <!-- Films avec date de sortie -->
+      <!-- Films avec date de sortie (paginated) -->
       <li
-        v-for="movie in moviesDated"
+        v-for="movie in paginatedMoviesDated"
         :key="'dated-' + movie.id"
         class="list-row items-center py-6"
       >
@@ -108,6 +108,22 @@
         </button>
       </li>
     </ul>
+
+    <!-- Pagination controls -->
+    <div v-if="totalPages > 1" class="flex justify-center mt-6 gap-4 items-center">
+      <button class="btn btn-sm" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
+        Précédent
+      </button>
+      <span class="text-sm font-semibold"> {{ currentPage }} / {{ totalPages }} </span>
+      <button
+        class="btn btn-sm"
+        :disabled="currentPage === totalPages"
+        @click="goToPage(currentPage + 1)"
+      >
+        Suivant
+      </button>
+    </div>
+
     <p v-if="!moviesDated.length && !moviesUnknown.length" class="text-center mt-8">
       Chargement...
     </p>
@@ -115,39 +131,56 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        moviesDated: [],
-        moviesUnknown: [],
-      }
+export default {
+  data() {
+    return {
+      moviesDated: [],
+      moviesUnknown: [],
+      currentPage: 1,
+      pageSize: 8, // Nombre de films par page
+    }
+  },
+  computed: {
+    paginatedMoviesDated() {
+      const start = (this.currentPage - 1) * this.pageSize
+      return this.moviesDated.slice(start, start + this.pageSize)
     },
-    async mounted() {
-      const apiKey = '6d89679d9cbbc46042844319a7effcff' // Remplacez par votre clé API TMDB
-      const personId = 5292 // Denzel Washington
-      const url = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${apiKey}&language=fr-FR`
+    totalPages() {
+      return Math.ceil(this.moviesDated.length / this.pageSize)
+    },
+  },
+  async mounted() {
+    const apiKey = '6d89679d9cbbc46042844319a7effcff' // Remplacez par votre clé API TMDB
+    const personId = 5292 // Denzel Washington
+    const url = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${apiKey}&language=fr-FR`
 
-      try {
-        const response = await fetch(url)
-        const data = await response.json()
-        // Combine cast et crew, retire les doublons par id
-        const allMovies = [...data.cast, ...data.crew]
-        const uniqueMovies = Array.from(new Map(allMovies.map((m) => [m.id, m])).values())
-        // Sépare les films avec et sans date de sortie
-        const moviesUnknown = uniqueMovies.filter((m) => !m.release_date)
-        const moviesDated = uniqueMovies
-          .filter((m) => m.release_date)
-          .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
-        this.moviesUnknown = moviesUnknown
-        this.moviesDated = moviesDated
-      } catch (e) {
-        console.error(e)
+    try {
+      const response = await fetch(url)
+      const data = await response.json()
+      // Combine cast et crew, retire les doublons par id
+      const allMovies = [...data.cast, ...data.crew]
+      const uniqueMovies = Array.from(new Map(allMovies.map((m) => [m.id, m])).values())
+      // Sépare les films avec et sans date de sortie
+      const moviesUnknown = uniqueMovies.filter((m) => !m.release_date)
+      const moviesDated = uniqueMovies
+        .filter((m) => m.release_date)
+        .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
+      this.moviesUnknown = moviesUnknown
+      this.moviesDated = moviesDated
+    } catch (e) {
+      console.error(e)
+    }
+  },
+  methods: {
+    openTmdb(id) {
+      window.open(`https://www.themoviedb.org/movie/${id}`, '_blank')
+    },
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     },
-    methods: {
-      openTmdb(id) {
-        window.open(`https://www.themoviedb.org/movie/${id}`, '_blank')
-      },
-    },
-  }
+  },
+}
 </script>

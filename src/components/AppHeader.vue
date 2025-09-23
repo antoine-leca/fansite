@@ -42,6 +42,10 @@
             <li>
               <a class="btn btn-ghost text-xl" href="/real">Réalisations</a>
             </li>
+
+            <li>
+              <a class="btn btn-ghost text-xl" href="/gallery">Galerie</a>
+            </li>
           </ul>
         </div>
 
@@ -70,14 +74,13 @@
     <div class="drawer-side z-30">
       <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
       <ul class="menu bg-white min-h-full w-80 p-4 pt-[64px]">
-        <!-- Accueil -->
         <li><a class="pl-8 text-lg" href="/actu">Accueil</a></li>
 
-        <!-- Films -->
         <li><a class="pl-8 text-lg" href="/actu">Actualités</a></li>
 
-        <!-- Séries -->
         <li><a class="pl-8 text-lg" href="/real">Réalisations</a></li>
+        
+        <li><a class="pl-8 text-lg" href="/gallery">Galerie</a></li>
       </ul>
     </div>
   </header>
@@ -104,6 +107,15 @@
           :class="$route.path.startsWith('/real') ? 'main-font-m' : 'main-font-r text-gray-500'"
         >
           Réalisations
+        </router-link>
+      </li>
+      <li v-if="$route.path.startsWith('/gallery')">
+        <router-link
+          to="/real"
+          v-if="$route.path.startsWith('/gallery')"
+          :class="$route.path.startsWith('/gallery') ? 'main-font-m' : 'main-font-r text-gray-500'"
+        >
+          Galerie
         </router-link>
       </li>
     </ul>
